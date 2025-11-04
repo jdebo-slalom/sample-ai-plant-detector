@@ -1,3 +1,5 @@
+import DeleteIcon from '@mui/icons-material/Delete'
+
 interface ImagePreviewProps {
   imageUrl: string
   fileName: string
@@ -19,6 +21,7 @@ export const ImagePreview = ({ imageUrl, fileName, fileSize, onRemove }: ImagePr
       padding: 'clamp(16px, 3vw, 24px)',
       textAlign: 'center',
       backgroundColor: '#fafafa',
+      transition: 'all 0.2s ease',
     }}>
       <div style={{
         position: 'relative',
@@ -34,6 +37,15 @@ export const ImagePreview = ({ imageUrl, fileName, fileSize, onRemove }: ImagePr
             objectFit: 'contain',
             borderRadius: 'clamp(4px, 1vw, 8px)',
             boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+            transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = 'scale(1.02)'
+            e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,0,0,0.15)'
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = 'scale(1)'
+            e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)'
           }}
         />
       </div>
@@ -42,6 +54,7 @@ export const ImagePreview = ({ imageUrl, fileName, fileSize, onRemove }: ImagePr
         marginBottom: 'clamp(12px, 2vw, 16px)',
         fontSize: 'clamp(12px, 2vw, 14px)',
         color: '#666',
+        transition: 'color 0.2s ease',
       }}>
         <div style={{ fontWeight: 500, marginBottom: 'clamp(4px, 1vw, 8px)' }}>
           {fileName}
@@ -62,16 +75,24 @@ export const ImagePreview = ({ imageUrl, fileName, fileSize, onRemove }: ImagePr
           fontSize: 'clamp(12px, 2vw, 14px)',
           cursor: 'pointer',
           transition: 'all 0.2s ease',
+          display: 'flex',
+          alignItems: 'center',
+          gap: 'clamp(4px, 1vw, 6px)',
+          margin: '0 auto',
+          boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
         }}
         onMouseEnter={(e) => {
           e.currentTarget.style.backgroundColor = '#d32f2f'
           e.currentTarget.style.transform = 'translateY(-2px)'
+          e.currentTarget.style.boxShadow = '0 4px 8px rgba(0,0,0,0.2)'
         }}
         onMouseLeave={(e) => {
           e.currentTarget.style.backgroundColor = '#f44336'
           e.currentTarget.style.transform = 'translateY(0)'
+          e.currentTarget.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)'
         }}
       >
+        <DeleteIcon style={{ fontSize: 'clamp(14px, 2vw, 16px)' }} />
         Remove Image
       </button>
     </div>

@@ -74,6 +74,7 @@ function App() {
           fontSize: 'clamp(28px, 6vw, 42px)',
           margin: '0 0 clamp(8px, 2vw, 16px) 0',
           color: '#333',
+          transition: 'color 0.3s ease',
         }}>
           🌱 Plant Disease Detector
         </h1>
@@ -81,6 +82,7 @@ function App() {
           fontSize: 'clamp(14px, 3vw, 18px)',
           color: '#666',
           margin: 0,
+          transition: 'color 0.3s ease',
         }}>
           Upload a plant image to detect diseases and get treatment recommendations
         </p>
@@ -88,7 +90,11 @@ function App() {
 
       <main>
         {/* Step 1: Image Upload or Preview */}
-        <div style={{ marginBottom: 'clamp(24px, 4vw, 32px)' }}>
+        <div style={{ 
+          marginBottom: 'clamp(24px, 4vw, 32px)',
+          transition: 'opacity 0.3s ease',
+          opacity: isLoading ? 0.7 : 1,
+        }}>
           {!image ? (
             <ImageUpload onImageSelect={handleImageSelect} />
           ) : (
@@ -121,23 +127,29 @@ function App() {
                 alignItems: 'center',
                 gap: 'clamp(6px, 1vw, 8px)',
                 margin: '0 auto',
+                boxShadow: isLoading ? 'none' : '0 2px 8px rgba(76, 175, 80, 0.3)',
               }}
               onMouseEnter={(e) => {
                 if (!isLoading) {
                   e.currentTarget.style.backgroundColor = '#45a049'
                   e.currentTarget.style.transform = 'translateY(-2px)'
+                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(76, 175, 80, 0.4)'
                 }
               }}
               onMouseLeave={(e) => {
                 if (!isLoading) {
                   e.currentTarget.style.backgroundColor = '#4caf50'
                   e.currentTarget.style.transform = 'translateY(0)'
+                  e.currentTarget.style.boxShadow = '0 2px 8px rgba(76, 175, 80, 0.3)'
                 }
               }}
             >
               {isLoading ? (
                 <>
-                  <LoopIcon style={{ fontSize: 'clamp(16px, 3vw, 18px)' }} />
+                  <LoopIcon style={{ 
+                    fontSize: 'clamp(16px, 3vw, 18px)',
+                    animation: 'spin 1s linear infinite',
+                  }} />
                   Analyzing Plant...
                 </>
               ) : (
@@ -158,6 +170,8 @@ function App() {
             backgroundColor: '#f0f8ff',
             borderRadius: 'clamp(8px, 2vw, 12px)',
             marginBottom: 'clamp(24px, 4vw, 32px)',
+            border: '2px solid #e3f2fd',
+            animation: 'pulse 2s ease-in-out infinite',
           }}>
             <LoopIcon style={{
               fontSize: 'clamp(32px, 6vw, 48px)',
@@ -169,15 +183,27 @@ function App() {
               fontSize: 'clamp(16px, 3vw, 18px)',
               color: '#1976d2',
               margin: 0,
+              fontWeight: 500,
             }}>
               Analyzing your plant image with AI...
             </p>
+            <div style={{
+              marginTop: 'clamp(8px, 2vw, 12px)',
+              fontSize: 'clamp(12px, 2vw, 14px)',
+              color: '#666',
+            }}>
+              This may take a few seconds
+            </div>
           </div>
         )}
 
         {/* Step 4: Analysis Results */}
         {result && (
-          <AnalysisResults result={result} onReset={handleReset} />
+          <div style={{
+            animation: 'slideIn 0.5s ease-out',
+          }}>
+            <AnalysisResults result={result} onReset={handleReset} />
+          </div>
         )}
 
         {/* Step 5: Error Message */}
@@ -190,6 +216,8 @@ function App() {
             marginBottom: 'clamp(24px, 4vw, 32px)',
             textAlign: 'center',
             fontSize: 'clamp(14px, 2.5vw, 16px)',
+            border: '2px solid #ffcdd2',
+            animation: 'shake 0.5s ease-in-out',
           }}>
             <strong>Error:</strong> {error}
           </div>
@@ -200,6 +228,28 @@ function App() {
         @keyframes spin {
           from { transform: rotate(0deg); }
           to { transform: rotate(360deg); }
+        }
+        
+        @keyframes pulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.8; }
+        }
+        
+        @keyframes slideIn {
+          from { 
+            opacity: 0; 
+            transform: translateY(20px); 
+          }
+          to { 
+            opacity: 1; 
+            transform: translateY(0); 
+          }
+        }
+        
+        @keyframes shake {
+          0%, 100% { transform: translateX(0); }
+          25% { transform: translateX(-5px); }
+          75% { transform: translateX(5px); }
         }
       `}</style>
     </div>
