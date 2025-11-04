@@ -1,3 +1,5 @@
+import ScienceIcon from '@mui/icons-material/Science'
+import RefreshIcon from '@mui/icons-material/Refresh'
 import type { AnalysisResult } from '../types'
 
 interface AnalysisResultsProps {
@@ -31,11 +33,14 @@ export const AnalysisResults = ({ result, onReset }: AnalysisResultsProps) => {
         display: 'flex',
         alignItems: 'center',
         marginBottom: 'clamp(16px, 3vw, 24px)',
-        fontSize: 'clamp(48px, 8vw, 64px)',
       }}>
-        🔬
+        <ScienceIcon style={{
+          fontSize: 'clamp(32px, 6vw, 48px)',
+          color: '#1976d2',
+          marginRight: 'clamp(12px, 2vw, 16px)',
+        }} />
         <h2 style={{
-          margin: '0 0 0 clamp(12px, 2vw, 16px)',
+          margin: 0,
           fontSize: 'clamp(20px, 4vw, 28px)',
           color: '#333',
         }}>
@@ -144,6 +149,9 @@ export const AnalysisResults = ({ result, onReset }: AnalysisResultsProps) => {
           cursor: 'pointer',
           transition: 'all 0.2s ease',
           fontWeight: 500,
+          display: 'flex',
+          alignItems: 'center',
+          gap: 'clamp(6px, 1vw, 8px)',
         }}
         onMouseEnter={(e) => {
           e.currentTarget.style.backgroundColor = '#1565c0'
@@ -154,6 +162,7 @@ export const AnalysisResults = ({ result, onReset }: AnalysisResultsProps) => {
           e.currentTarget.style.transform = 'translateY(0)'
         }}
       >
+        <RefreshIcon style={{ fontSize: 'clamp(16px, 2.5vw, 18px)' }} />
         Analyze Another Image
       </button>
     </div>

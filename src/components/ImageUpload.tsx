@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react'
+import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 import { validateImage } from '../utils/imageUtils'
 
 interface ImageUploadProps {
@@ -73,9 +74,12 @@ export const ImageUpload = ({ onImageSelect }: ImageUploadProps) => {
       onDrop={handleDrop}
       onClick={handleClick}
     >
-      <div style={{ fontSize: 'clamp(48px, 8vw, 64px)', marginBottom: 'clamp(8px, 2vw, 16px)' }}>
-        📷
-      </div>
+      <CloudUploadIcon style={{
+        fontSize: 'clamp(48px, 8vw, 64px)',
+        color: isDragOver ? '#646cff' : '#999',
+        marginBottom: 'clamp(8px, 2vw, 16px)',
+      }} />
+      
       <h3 style={{ margin: '0 0 clamp(8px, 2vw, 16px) 0', fontSize: 'clamp(16px, 3vw, 20px)' }}>
         Upload Plant Image
       </h3>

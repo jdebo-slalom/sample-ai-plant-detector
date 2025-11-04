@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import SearchIcon from '@mui/icons-material/Search'
+import LoopIcon from '@mui/icons-material/Loop'
 import type { AnalysisResult } from './types'
 import { fileToBase64 } from './utils/imageUtils'
 import { analyzePlantImage } from './services/bedrockService'
@@ -115,6 +117,10 @@ function App() {
                 cursor: isLoading ? 'not-allowed' : 'pointer',
                 transition: 'all 0.2s ease',
                 fontWeight: 500,
+                display: 'flex',
+                alignItems: 'center',
+                gap: 'clamp(6px, 1vw, 8px)',
+                margin: '0 auto',
               }}
               onMouseEnter={(e) => {
                 if (!isLoading) {
@@ -129,7 +135,17 @@ function App() {
                 }
               }}
             >
-              {isLoading ? '🔄 Analyzing Plant...' : '🔍 Analyze Plant'}
+              {isLoading ? (
+                <>
+                  <LoopIcon style={{ fontSize: 'clamp(16px, 3vw, 18px)' }} />
+                  Analyzing Plant...
+                </>
+              ) : (
+                <>
+                  <SearchIcon style={{ fontSize: 'clamp(16px, 3vw, 18px)' }} />
+                  Analyze Plant
+                </>
+              )}
             </button>
           </div>
         )}
@@ -143,13 +159,12 @@ function App() {
             borderRadius: 'clamp(8px, 2vw, 12px)',
             marginBottom: 'clamp(24px, 4vw, 32px)',
           }}>
-            <div style={{
+            <LoopIcon style={{
               fontSize: 'clamp(32px, 6vw, 48px)',
+              color: '#1976d2',
               marginBottom: 'clamp(12px, 2vw, 16px)',
               animation: 'spin 2s linear infinite',
-            }}>
-              🔄
-            </div>
+            }} />
             <p style={{
               fontSize: 'clamp(16px, 3vw, 18px)',
               color: '#1976d2',
