@@ -5,6 +5,9 @@ import './App.css'
 function App() {
   const [count, setCount] = useState(0)
 
+  // Test environment variable access
+  console.log('AWS Region:', import.meta.env.VITE_AWS_REGION)
+
   return (
     <>
       <div>
