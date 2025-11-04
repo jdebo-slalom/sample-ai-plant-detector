@@ -2,6 +2,9 @@ import { useState } from 'react'
 import type { AnalysisResult } from './types'
 import { fileToBase64 } from './utils/imageUtils'
 import { analyzePlantImage } from './services/bedrockService'
+import { ImageUpload } from './components/ImageUpload'
+import { ImagePreview } from './components/ImagePreview'
+import { AnalysisResults } from './components/AnalysisResults'
 import './App.css'
 
 function App() {
@@ -82,24 +85,108 @@ function App() {
       </header>
 
       <main>
-        {/* Placeholder for components - will be added in Step 12 */}
-        <div style={{
-          padding: 'clamp(20px, 4vw, 32px)',
-          border: '2px dashed #ccc',
-          borderRadius: 'clamp(8px, 2vw, 12px)',
-          textAlign: 'center',
-          color: '#666',
-        }}>
-          <p>Components will be wired here in Step 12</p>
-          <p>Current state:</p>
-          <ul style={{ textAlign: 'left', display: 'inline-block' }}>
-            <li>Image: {image ? '✅ Loaded' : '❌ None'}</li>
-            <li>Loading: {isLoading ? '⏳ Yes' : '✅ No'}</li>
-            <li>Result: {result ? '✅ Available' : '❌ None'}</li>
-            <li>Error: {error ? `❌ ${error}` : '✅ None'}</li>
-          </ul>
+        {/* Step 1: Image Upload or Preview */}
+        <div style={{ marginBottom: 'clamp(24px, 4vw, 32px)' }}>
+          {!image ? (
+            <ImageUpload onImageSelect={handleImageSelect} />
+          ) : (
+            <ImagePreview
+              imageUrl={image}
+              fileName={imageFile?.name || 'Unknown'}
+              fileSize={imageFile?.size || 0}
+              onRemove={handleReset}
+            />
+          )}
         </div>
+
+        {/* Step 2: Analyze Button */}
+        {image && !result && (
+          <div style={{ textAlign: 'center', marginBottom: 'clamp(24px, 4vw, 32px)' }}>
+            <button
+              onClick={handleAnalyze}
+              disabled={isLoading}
+              style={{
+                backgroundColor: isLoading ? '#ccc' : '#4caf50',
+                color: 'white',
+                border: 'none',
+                borderRadius: 'clamp(6px, 1vw, 8px)',
+                padding: 'clamp(12px, 3vw, 16px) clamp(24px, 5vw, 32px)',
+                fontSize: 'clamp(16px, 3vw, 18px)',
+                cursor: isLoading ? 'not-allowed' : 'pointer',
+                transition: 'all 0.2s ease',
+                fontWeight: 500,
+              }}
+              onMouseEnter={(e) => {
+                if (!isLoading) {
+                  e.currentTarget.style.backgroundColor = '#45a049'
+                  e.currentTarget.style.transform = 'translateY(-2px)'
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!isLoading) {
+                  e.currentTarget.style.backgroundColor = '#4caf50'
+                  e.currentTarget.style.transform = 'translateY(0)'
+                }
+              }}
+            >
+              {isLoading ? '🔄 Analyzing Plant...' : '🔍 Analyze Plant'}
+            </button>
+          </div>
+        )}
+
+        {/* Step 3: Loading State */}
+        {isLoading && (
+          <div style={{
+            textAlign: 'center',
+            padding: 'clamp(20px, 4vw, 32px)',
+            backgroundColor: '#f0f8ff',
+            borderRadius: 'clamp(8px, 2vw, 12px)',
+            marginBottom: 'clamp(24px, 4vw, 32px)',
+          }}>
+            <div style={{
+              fontSize: 'clamp(32px, 6vw, 48px)',
+              marginBottom: 'clamp(12px, 2vw, 16px)',
+              animation: 'spin 2s linear infinite',
+            }}>
+              🔄
+            </div>
+            <p style={{
+              fontSize: 'clamp(16px, 3vw, 18px)',
+              color: '#1976d2',
+              margin: 0,
+            }}>
+              Analyzing your plant image with AI...
+            </p>
+          </div>
+        )}
+
+        {/* Step 4: Analysis Results */}
+        {result && (
+          <AnalysisResults result={result} onReset={handleReset} />
+        )}
+
+        {/* Step 5: Error Message */}
+        {error && (
+          <div style={{
+            backgroundColor: '#ffebee',
+            color: '#c62828',
+            padding: 'clamp(16px, 3vw, 20px)',
+            borderRadius: 'clamp(6px, 1vw, 8px)',
+            marginBottom: 'clamp(24px, 4vw, 32px)',
+            textAlign: 'center',
+            fontSize: 'clamp(14px, 2.5vw, 16px)',
+          }}>
+            <strong>Error:</strong> {error}
+          </div>
+        )}
       </main>
+
+      <style>{`
+        @keyframes spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+      `}</style>
     </div>
   )
 }
