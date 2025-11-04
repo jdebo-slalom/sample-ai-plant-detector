@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import type { AnalysisResult } from './types'
 import './App.css'
 
 function App() {
